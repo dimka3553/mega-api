@@ -52,7 +52,7 @@ jobs:
     
     steps:
     - uses: actions/checkout@v3
-    - name: Deploy staging
+    - name: Deploy Prod
       env:
         AWS_KEY: ${{ secrets.AWS_KEY }}
       run: |
