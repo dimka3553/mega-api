@@ -1,0 +1,7 @@
+version: '3'
+services:
+  mega-api:
+    image: ttl.sh/mega-api:3h
+    ports:
+      - 4444:4444
+    restart: unless-stopped
