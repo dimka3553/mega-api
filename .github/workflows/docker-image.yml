@@ -2,9 +2,9 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "*" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "*" ]
 
 jobs:
 
@@ -27,7 +27,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag ttl.sh/mega-api:3h  # Add the 'run' key here
+      run: docker build . --file Dockerfile --tag ttl.sh/mega-api:3h
     - run: docker push ttl.sh/mega-api:3h
 
   deploy_staging:
@@ -53,6 +53,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Deploy Prod
+      if: github.ref == 'refs/heads/main'
       env:
         AWS_KEY: ${{ secrets.AWS_KEY }}
       run: |
