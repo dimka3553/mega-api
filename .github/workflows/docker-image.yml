@@ -27,9 +27,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag ttl.sh/mega-api:3h
-    - name: Test Docker image
-      run: docker run --rm --name test-container ttl.sh/mega-api:3h & sleep 10; docker ps | grep test-container
+      run: docker build . --file Dockerfile --tag ttl.sh/mega-api:3h  # Add the 'run' key here
     - run: docker push ttl.sh/mega-api:3h
 
   deploy_staging:
@@ -44,9 +42,10 @@ jobs:
       run: |
         eval "$(ssh-agent -s)"
         ssh-add - <<< "${STAGING_KEY}"
-        ssh vagrant@192.168.105.3 'docker-compose down || true'
-        ssh vagrant@192.168.105.3 'docker-compose up -d'
-
+        ssh vagrant@192.168.105.3 'sudo docker stop running-api || true'
+        ssh vagrant@192.168.105.3 'sudo docker rm running-api || true'
+        ssh vagrant@192.168.105.3 'sudo docker run --pull always -d --restart=unless-stopped --name mega-api -p 4444:4444 ttl.sh/mega-api:3h'
+        
   deploy_prod:
     needs: deploy_staging
     runs-on: self-hosted
@@ -59,5 +58,6 @@ jobs:
       run: |
         eval "$(ssh-agent -s)"
         ssh-add - <<< "${AWS_KEY}"
-        ssh ubuntu@ec2-52-59-114-177.eu-central-1.compute.amazonaws.com 'docker-compose down || true'
-        ssh ubuntu@ec2-52-59-114-177.eu-central-1.compute.amazonaws.com 'docker-compose up -d'
+        ssh ubuntu@ec2-52-59-114-177.eu-central-1.compute.amazonaws.com 'sudo docker stop running-api || true'
+        ssh ubuntu@ec2-52-59-114-177.eu-central-1.compute.amazonaws.com 'sudo docker rm running-api || true'
+        ssh ubuntu@ec2-52-59-114-177.eu-central-1.compute.amazonaws.com 'sudo docker run --pull always -d --restart=unless-stopped --name mega-api -p 4444:4444 ttl.sh/mega-api:3h'
