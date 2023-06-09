@@ -27,14 +27,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag ttl.sh/mega-api:3h
-
-  push:
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v3
-    - name: Push Docker image
-      run: docker push ttl.sh/mega-api:3h
+    - run: docker build . --file Dockerfile --tag ttl.sh/mega-api:3h
+    - run: docker push ttl.sh/mega-api:3h
+      
 
