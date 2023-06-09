@@ -37,11 +37,3 @@ jobs:
     - name: Push Docker image
       run: docker push ttl.sh/mega-api:3h
 
-  deploy:
-    needs: push
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v3
-    - name: Deploy
-
