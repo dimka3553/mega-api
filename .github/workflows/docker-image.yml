@@ -44,7 +44,7 @@ jobs:
         ssh-add - <<< "${STAGING_KEY}"
         ssh vagrant@192.168.105.3 'sudo docker stop running-api || true'
         ssh vagrant@192.168.105.3 'sudo docker rm running-api || true'
-        ssh vagrant@192.168.105.3 'sudo docker run --pull always -d --restart=unless-stopped --name mega-api -p 4444:4444 ttl.sh/mega-api:3h'
+        ssh vagrant@192.168.105.3 'sudo docker run --pull always -d --restart=unless-stopped --name running-api -p 4444:4444 ttl.sh/mega-api:3h'
         
   deploy_prod:
     needs: deploy_staging
@@ -60,4 +60,4 @@ jobs:
         ssh-add - <<< "${AWS_KEY}"
         ssh ubuntu@ec2-52-59-114-177.eu-central-1.compute.amazonaws.com 'sudo docker stop running-api || true'
         ssh ubuntu@ec2-52-59-114-177.eu-central-1.compute.amazonaws.com 'sudo docker rm running-api || true'
-        ssh ubuntu@ec2-52-59-114-177.eu-central-1.compute.amazonaws.com 'sudo docker run --pull always -d --restart=unless-stopped --name mega-api -p 4444:4444 ttl.sh/mega-api:3h'
+        ssh ubuntu@ec2-52-59-114-177.eu-central-1.compute.amazonaws.com 'sudo docker run --pull always -d --restart=unless-stopped --name running-api -p 4444:4444 ttl.sh/mega-api:3h'
