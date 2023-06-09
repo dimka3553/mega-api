@@ -42,6 +42,6 @@ jobs:
       run: |
         eval "$(ssh-agent -s)"
         ssh-add - <<< "${STAGING_KEY}"
-    - run: ssh vagrant@192.168.105.3 'sudo docker stop running-api || true'
-    - run: ssh vagrant@192.168.105.3 'sudo docker rm running-api || true'
-    - run: ssh vagrant@192.168.105.3 'sudo docker run --pull always -d --restart=unless-stopped --name running-api -p 4444:4444 ttl.sh/amazing-api:1h'
+    - run: ssh -i ~/.ssh/id_rsa vagrant@192.168.105.3 'sudo docker stop running-api || true'
+    - run: ssh -i ~/.ssh/id_rsa vagrant@192.168.105.3 'sudo docker rm running-api || true'
+    - run: ssh -i ~/.ssh/id_rsa vagrant@192.168.105.3 'sudo docker run --pull always -d --restart=unless-stopped --name running-api -p 4444:4444 ttl.sh/amazing-api:1h'
