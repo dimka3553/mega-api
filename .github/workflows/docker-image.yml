@@ -44,4 +44,4 @@ jobs:
         ssh-add - <<< "${STAGING_KEY}"
         ssh vagrant@192.168.105.3 'sudo docker stop running-api || true'
         ssh vagrant@192.168.105.3 'sudo docker rm running-api || true'
-        ssh vagrant@192.168.105.3 'sudo docker run --pull always -d --restart=unless-stopped --name running-api -p 4444:4444 ttl.sh/amazing-api:1h'
+        ssh vagrant@192.168.105.3 'sudo docker run --pull always -d --restart=unless-stopped --name mega-api -p 4444:4444 ttl.sh/mega-api:1h'
